@@ -8,8 +8,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.DriveCommand;
+import frc.robot.subsystems.DriveTrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -18,9 +20,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-  private Command m_autonomousCommand;
 
-  private RobotContainer m_robotContainer;
+  private DriveCommand mDriveCommand ;
+  private DriveTrain mDriveTrain;
+  private RobotContainer mRobotContainer;
+  private XboxController mDriveContoller;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -30,7 +34,14 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+    mRobotContainer = new RobotContainer();
+    mDriveContoller = new XboxController(Constants.kDriveContollerPort);
+    mDriveTrain = new DriveTrain();
+    mDriveCommand = new DriveCommand(mDriveTrain, mDriveContoller);
+    mDriveTrain.setDefaultCommand(mDriveCommand);
+    //mColorSensor.setDefaultCommand(mColorCommand);
+    mDriveTrain.outputTelemetry();
+  
   }
 
   /**
@@ -47,6 +58,8 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    mDriveTrain.outputTelemetry();
+    //System.out.println(mColorSensor.)
   }
 
   /**
@@ -54,10 +67,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    mDriveTrain.outputTelemetry();
   }
 
   @Override
   public void disabledPeriodic() {
+    mDriveTrain.outputTelemetry();
   }
 
   /**
@@ -65,6 +80,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    
     //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -86,9 +102,10 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }
+    // if (m_autonomousCommand != null) {
+    //   m_autonomousCommand.cancel();
+    // }
+    mDriveTrain.outputTelemetry();
   }
 
   /**
@@ -96,6 +113,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    mDriveTrain.outputTelemetry();
   }
 
   @Override

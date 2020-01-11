@@ -10,7 +10,12 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalSource;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Add your docs here.
  */
@@ -23,6 +28,12 @@ public class DriveTrain extends SubsystemBase {
   private final WPI_TalonSRX mLeftDriveSlave;
   private final WPI_TalonSRX mRightDriveslave;
   private final DifferentialDrive mDifferentialDrive;
+  DigitalSource mLeftEncoderDigitalInputA = new DigitalInput(Constants.kLeftEncoderChannelA);
+  DigitalSource mLeftEncoderDigitalInputB = new DigitalInput(Constants.kLeftEncoderChannelB);
+  DigitalSource mRightEncoderDigitalInputA = new DigitalInput(Constants.kRightEncoderChannelA);
+  DigitalSource mRightEncoderDigitalInputB = new DigitalInput(Constants.kRightEncoderChannelB);
+  private final Encoder mLeftEncoder;
+  private final Encoder mRightEncoder;
   /**
    * Creates a new ExampleSubsystem.
    */
@@ -38,8 +49,11 @@ public class DriveTrain extends SubsystemBase {
 
     mDifferentialDrive = new DifferentialDrive(mLeftDriveMaster, mRightDriveMaster);
     mDifferentialDrive.setDeadband(0.1);
-    
+
+    mLeftEncoder = new Encoder(mLeftEncoderDigitalInputA, mLeftEncoderDigitalInputB);
+    mRightEncoder = new Encoder(mRightEncoderDigitalInputA, mRightEncoderDigitalInputB);  
   }
+
   public static void initTalonSRX(WPI_TalonSRX talonSRX){
     talonSRX.configFactoryDefault();
     talonSRX.setNeutralMode(NeutralMode.Brake);
@@ -54,6 +68,10 @@ public class DriveTrain extends SubsystemBase {
     mDifferentialDrive.arcadeDrive(move, turn);
   }
 
+  public void outputTelemetry(){
+    // SmartDashboard.putNumber("Left Encoder Count", mLeftEncoder.getDistance());
+    // SmartDashboard.putNumber("Right Encoder Count", mRightEncoder.getDistance());
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

@@ -23,4 +23,11 @@ public final class Constants {
     public static int kLeftDriveSlaveID = 4;
     public static int kRightDriveMasterID = 2;
     public static int kRightDriveSlaveID = 3;
+
+    public static int kGetColorButton = 1;
+
+    public static int kLeftEncoderChannelA = 0;
+    public static int kLeftEncoderChannelB = 1;
+    public static int kRightEncoderChannelA = 2;
+    public static int kRightEncoderChannelB = 3;
 }
