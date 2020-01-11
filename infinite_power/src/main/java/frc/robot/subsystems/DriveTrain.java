@@ -11,7 +11,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DigitalSource;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -28,10 +27,10 @@ public class DriveTrain extends SubsystemBase {
   private final WPI_TalonSRX mLeftDriveSlave;
   private final WPI_TalonSRX mRightDriveslave;
   private final DifferentialDrive mDifferentialDrive;
-  DigitalSource mLeftEncoderDigitalInputA = new DigitalInput(Constants.kLeftEncoderChannelA);
-  DigitalSource mLeftEncoderDigitalInputB = new DigitalInput(Constants.kLeftEncoderChannelB);
-  DigitalSource mRightEncoderDigitalInputA = new DigitalInput(Constants.kRightEncoderChannelA);
-  DigitalSource mRightEncoderDigitalInputB = new DigitalInput(Constants.kRightEncoderChannelB);
+  private final DigitalInput mLeftEncoderDigitalInputA;
+  private final DigitalInput mLeftEncoderDigitalInputB;
+  private final DigitalInput mRightEncoderDigitalInputA;
+  private final DigitalInput mRightEncoderDigitalInputB;
   private final Encoder mLeftEncoder;
   private final Encoder mRightEncoder;
   /**
@@ -50,8 +49,12 @@ public class DriveTrain extends SubsystemBase {
     mDifferentialDrive = new DifferentialDrive(mLeftDriveMaster, mRightDriveMaster);
     mDifferentialDrive.setDeadband(0.1);
 
-    mLeftEncoder = new Encoder(mLeftEncoderDigitalInputA, mLeftEncoderDigitalInputB);
-    mRightEncoder = new Encoder(mRightEncoderDigitalInputA, mRightEncoderDigitalInputB);  
+    mLeftEncoderDigitalInputA = new DigitalInput(Constants.kLeftEncoderChannelA);
+    mLeftEncoderDigitalInputB = new DigitalInput(Constants.kLeftEncoderChannelB);
+    mRightEncoderDigitalInputA = new DigitalInput(Constants.kRightEncoderChannelA);
+    mRightEncoderDigitalInputB = new DigitalInput(Constants.kRightEncoderChannelB);
+    mLeftEncoder = new Encoder(mLeftEncoderDigitalInputA, mLeftEncoderDigitalInputB, false, EncodingType.k4X);
+    mRightEncoder = new Encoder(mRightEncoderDigitalInputA, mRightEncoderDigitalInputB, false, EncodingType.k4X);  
   }
 
   public static void initTalonSRX(WPI_TalonSRX talonSRX){
